@@ -32,11 +32,15 @@ public class RecibirDatos extends HttpServlet {
             String humedadSuelo = request.getParameter("humedadSuelo");
             String humedadAire = request.getParameter("humedadAire");
             String gas = request.getParameter("gas");
-
+            // Agregar "velocidad" en el resto del programa
+            String velocidad = request.getParameter("velocidad");
+            
             System.out.println("Temperatura: " + tempParam);
             System.out.println("Humedad suelo: " + humedadSuelo);
             System.out.println("Humedad aire: " + humedadAire);
             System.out.println("Gases: " + gas);
+            System.out.println("Velocidad: " + gas);
+            System.out.println("\n");
 
             if (tempParam == null || humedadSuelo == null || humedadAire == null || gas == null) {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Faltan parámetros.");

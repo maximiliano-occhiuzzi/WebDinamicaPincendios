@@ -122,11 +122,7 @@ const datosClimaticos = [
     humedadTierra: <%=humedad%>,
     aire: <%=aireStr%>,
     gases: <%=gasesStr%>,
-<<<<<<< HEAD
-    viento: <%=vientoStr%>
-=======
-    viento: <%=vientoStr %>
->>>>>>> 1dfbab4 (actualizando front & back)
+    viento: <%=vientoStr%>,
   }<%=(i < datos.size() - 1) ? "," : ""%>
   <%}
 }%>
@@ -160,7 +156,6 @@ datosMostrar.forEach((dato, i) => {
   const color = getColor(dato.temperaturaGeneral);
 
   
-<<<<<<< HEAD
   const popupContent =
 	  "<strong>" + coord.nombre + "</strong><br>" +
 	  "Fecha: " + dato.fecha + "<br>" +
@@ -171,19 +166,6 @@ datosMostrar.forEach((dato, i) => {
 	  "Gases: " + dato.gases + "<br>" +
 	  "Viento: " + dato.viento + " km/h";
 	
-=======
-	const popupContent =
-		  "<strong>" + coord.nombre + "</strong><br>" +
-		  "Fecha: " + dato.fecha + "<br>" +
-		  "Temp. General: " + dato.temperaturaGeneral + "°C<br>" +
-		  "Temp. Peligrosa: " + dato.temperaturaPeligrosa + "°C<br>" +
-		  "Humedad Tierra: " + dato.humedadTierra + "%<br>" +
-		  "Aire: " + dato.aire + "<br>" +
-		  "Gases: " + dato.gases + "<br>" +		
-		  "viento: " + dato.viento
-	;
->>>>>>> 1dfbab4 (actualizando front & back)
-
   const circulo = L.circle([coord.lat, coord.lng], {
 	 
     color: color,
@@ -243,17 +225,10 @@ datosMostrar.forEach((dato, i) => {
 							<td><%=ultimoDato.getGases()%></td>
 						</tr>
 						<tr>
-<<<<<<< HEAD
+
 							<th>viento</th>
 							<td><%=ultimoDato.getViento()%></td>
-						</tr>
-						
-=======
-							<th>Viento</th>
-							<td><%=ultimoDato.getViento()%></td>
-						</tr>	
 
->>>>>>> 1dfbab4 (actualizando front & back)
 					</table>
 					<%
 					}
@@ -285,45 +260,7 @@ datosMostrar.forEach((dato, i) => {
 %>
 
 <div class="panel alert-panel" id="alert-panel">
-<<<<<<< HEAD
   <h2>Mensajes de alerta</h2>
-  <div class="alert-message" id="alert-message">
-    <%
-      if (datos != null && !datos.isEmpty()) {
-        boolean hayRiesgoIncendio = false;
-        String[] nombresSensores = { "Sensor Norte", "Sensor Centro", "Sensor Este", "Sensor Sur", "Sensor Extra" };
-
-        for (int i = 0; i < datos.size(); i++) {
-          DatoClimatico dato = datos.get(i);
-          boolean condicion = (dato.getTemperaturaGeneral() > 30 &&
-                              dato.gethumedadAire() > 30 &&
-                              dato.getViento() > 30);
-
-          if (condicion) {
-            hayRiesgoIncendio = true;
-            String nombreSensor = (i < nombresSensores.length) ? nombresSensores[i] : "Sensor " + (i + 1);
-    %>
-            <p>🔥 Riesgo de incendio en <strong><%= nombreSensor %></strong>:<br>
-              Temp: <%= dato.getTemperaturaGeneral() %>°C, Aire: <%= dato.gethumedadAire() %>%, viento: <%= dato.getViento() %> km/h
-            </p>
-    <%
-          }
-        }
-
-        if (!hayRiesgoIncendio) {
-    %>
-          <p>No hay alertas de incendio en este momento.</p>
-    <%
-        }
-      } else {
-    %>
-        <p>Sin información disponible.</p>
-    <%
-      }
-    %>
-  </div>
-=======
-    <h2>Mensajes de alerta</h2>
     <div class="alert-message <%= alertClass %>" id="alert-message">
         <%
             if (datos != null && !datos.isEmpty()) {
@@ -360,7 +297,6 @@ datosMostrar.forEach((dato, i) => {
             }
         %>
     </div>
->>>>>>> 1dfbab4 (actualizando front & back)
 </div>
 
 	</div>

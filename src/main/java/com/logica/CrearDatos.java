@@ -24,7 +24,8 @@ public class CrearDatos extends HttpServlet {
             double humedad_tierra = (double) request.getAttribute("humedad_tierra");
             double aire = (double) request.getAttribute("aire");
             double gases = (double) request.getAttribute("gases");
-
+            // agregar "velocidad"
+            
             // Conexión a la base de datos
             try (Connection conexion = ConexionBD.obtenerConexion()) {
                 String sql = "INSERT INTO datos (temperatura_general, humedad_tierra, humedad_aire, gases, fecha) VALUES (?, ?, ?, ?, NOW())";
