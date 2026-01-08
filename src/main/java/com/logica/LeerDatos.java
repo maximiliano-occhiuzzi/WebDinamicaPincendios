@@ -58,7 +58,7 @@ public class LeerDatos extends HttpServlet {
     	    }
 
     	    request.setAttribute("datos", datos);
-    	    request.getRequestDispatcher("vistas/PaginaClima.jsp").forward(request, response);
+    	    request.getRequestDispatcher("vistas/new-page/mapa.jsp").forward(request, response);
 
     	} catch (SQLException e) {
     	    e.printStackTrace();

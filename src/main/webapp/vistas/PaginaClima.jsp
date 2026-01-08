@@ -1,3 +1,4 @@
+
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ page import="java.util.List"%>
 <%@ page import="com.logica.DatoClimatico"%>
@@ -8,37 +9,42 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mapa Visual Térmico Dinámico - Argentina</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/styles/main.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/styles/map.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/styles/main1.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/styles/main.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/styles/map.css">
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-<link rel="apple-touch-icon" sizes="512x512" href="${pageContext.request.contextPath}/multimedia/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="512x512"
+	href="${pageContext.request.contextPath}/multimedia/apple-touch-icon.png">
 
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
 <body>
 	<div class="container">
-			<header class="header">
+		<header class="header">
 			<div class="logo-container">
 				<div class="logo">
-					<img src="${pageContext.request.contextPath}/multimedia/logo.png" alt="Logo">
+					<img src="${pageContext.request.contextPath}/multimedia/logo.png"
+						alt="Logo">
 				</div>
 				<span class="website">www.fatima.com</span>
 			</div>
 			<!-- Menú de navegación -->
 			<nav class="main-nav">
-			  <ul>
-                <li><a href="${pageContext.request.contextPath}/vistas/inicio.jsp">Inicio</a></li>
-			    <li><a href="${pageContext.request.contextPath}/LeerDatos">Mapa</a></li>
-			    <li><a href="${pageContext.request.contextPath}/vistas/Bitacora.jsp">bitacora</a></li>
+				<ul>
+					<li><a
+						href="${pageContext.request.contextPath}/vistas/inicio.jsp">Inicio</a></li>
+					<li><a href="${pageContext.request.contextPath}/LeerDatos">Mapa</a></li>
+					<li><a
+						href="${pageContext.request.contextPath}/vistas/Bitacora.jsp">bitacora</a></li>
 
-			  </ul>
+				</ul>
 			</nav>
 			<h1 class="title">Mapa visual térmico dinámico</h1>
 
-			
+
 		</header>
 
 		<main class="main-content">
@@ -96,29 +102,25 @@
       center: [-38.4161, -63.6167], // Centro de Argentina
       zoom: 5,
     });
-
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors'
     }).addTo(map);
     
   </script>
 					<script>
-
 // Paso 1: Pasar los datos Java al entorno JavaScript
 const datosClimaticos = [
-  <% if (datos != null && !datos.isEmpty()) {
-       for (int i = 0; i < datos.size(); i++) {
-         DatoClimatico d = datos.get(i);
-         String fechaStr = (d.getFecha() != null) ? d.getFecha().toString() : "Sin fecha";
-         double tempGen = d.getTemperaturaGeneral();
-         double tempPelig = d.getTemperaturaPeligrosa();
-         double humedad = d.getHumedadTierra();
-         double aireStr = d.gethumedadAire();
-         double gasesStr = d.getGases();
-         double vientoStr = d.getViento();
-  %>
+  <%if (datos != null && !datos.isEmpty()) {
+	for (int i = 0; i < datos.size(); i++) {
+		DatoClimatico d = datos.get(i);
+		String fechaStr = (d.getFecha() != null) ? d.getFecha().toString() : "Sin fecha";
+		double tempGen = d.getTemperaturaGeneral();
+		double tempPelig = d.getTemperaturaPeligrosa();
+		double humedad = d.getHumedadTierra();
+		double aireStr = d.gethumedadAire();
+		double gasesStr = d.getGases();
+		double vientoStr = d.getViento();%>
   {
-
     fecha: "<%=fechaStr%>",
     temperaturaGeneral: <%=tempGen%>,
     temperaturaPeligrosa: <%=tempPelig%>,
@@ -129,9 +131,6 @@ const datosClimaticos = [
   }<%=(i < datos.size() - 1) ? "," : ""%>
   <%}
 }%>
-
-
-
 ];
 console.log("Datos Climáticos recibidos:", datosClimaticos);
 // Paso 2: Coordenadas para sensores en Córdoba
@@ -140,7 +139,6 @@ const coordenadasCordoba = [
   { lat: -31.4, lng: -64.2, nombre: "Sensor Centro" },
   { lat: -32.0, lng: -62.9, nombre: "Sensor Este" }
 ];
-
 // Paso 3: Función para asignar color según temperatura peligrosa
 function getColor(valor) {
   const num = Number(valor);
@@ -153,19 +151,16 @@ function getColor(valor) {
 }
 //Paso 4: Tomar solo los últimos 3 registros
 let ultimosDatos = datosClimaticos.slice(-Math.min(coordenadasCordoba.length, datosClimaticos.length));
-
 // Paso 5: Barajar los últimos datos para asignarlos al azar
 for (let i = ultimosDatos.length - 1; i > 0; i--) {
   const j = Math.floor(Math.random() * (i + 1));
   [ultimosDatos[i], ultimosDatos[j]] = [ultimosDatos[j], ultimosDatos[i]];
 }
-
 // Paso 6: Crear círculos con los datos barajados
 coordenadasCordoba.forEach((coord, index) => {
   const dato = ultimosDatos[index]; // asigna un dato al azar a cada sensor
   if (!dato) return; // evita errores si no hay suficiente dato
   const color = getColor(dato.temperaturaGeneral);
-
   const popupContent =
       "<strong>" + coord.nombre + "</strong><br>" +
       "Fecha: " + dato.fecha + "<br>" +
@@ -174,7 +169,6 @@ coordenadasCordoba.forEach((coord, index) => {
       "Aire: " + dato.aire + "<br>" +
       "Gases: " + dato.gases + "<br>" +
       "Viento: " + dato.viento + " km/h";
-
   L.circle([coord.lat, coord.lng], {
       color: color,
       fillColor: color,
@@ -182,7 +176,6 @@ coordenadasCordoba.forEach((coord, index) => {
       radius: 9000
   }).addTo(map).bindPopup(popupContent);
 });
-
 let registrosConSensor = ultimosDatos.map((dato, index) => ({
 	  sensor: coordenadasCordoba[index].nombre,  // nombre del sensor desde coordenadas
 	  fecha: dato.fecha,
@@ -201,28 +194,28 @@ let registrosConSensor = ultimosDatos.map((dato, index) => ({
 				</div>
 			</div>
 
-	<div class="right-panels">
-    <h2>Últimos registros</h2>
-    <table class="data-table" id="tablaRegistros">
-        <tbody>
-            <!-- Se llena con JS -->
-        </tbody>
-    </table>
+			<div class="right-panels">
+				<h2>Últimos registros</h2>
+				<table class="data-table" id="tablaRegistros">
+					<tbody>
+						<!-- Se llena con JS -->
+					</tbody>
+				</table>
 
-    <div class="carousel-controls">
-        <button id="prev">⟨ Anterior</button>
-        <button id="next">Siguiente ⟩</button>
-    </div>
+				<div class="carousel-controls">
+					<button id="prev">⟨ Anterior</button>
+					<button id="next">Siguiente ⟩</button>
+				</div>
 
-<!-- 👇 El panel de alerta va adentro de right-panels -->
-<div class="panel alert-panel" id="alert-panel">
-  <h2>Mensajes de alerta</h2>
-  <div class="alert-message" id="alert-message">
-    <p>Cargando datos...</p>
-  </div>
-</div>
+				<!-- 👇 El panel de alerta va adentro de right-panels -->
+				<div class="panel alert-panel" id="alert-panel">
+					<h2>Mensajes de alerta</h2>
+					<div class="alert-message" id="alert-message">
+						<p>Cargando datos...</p>
+					</div>
+				</div>
 
-<script>
+				<script>
 //👇 este arreglo es el que usan las alertas
 let sensoresConDatos = coordenadasCordoba.map((coord, index) => ({
   nombre: coord.nombre,
@@ -230,19 +223,15 @@ let sensoresConDatos = coordenadasCordoba.map((coord, index) => ({
   lng: coord.lng,
   datos: ultimosDatos[index]
 })).filter(s => s.datos);
-
 // Función de alertas
 function actualizarAlertas() {
   const alertContainer = document.getElementById("alert-message");
   alertContainer.innerHTML = ""; 
-
   let hayAlertas = false;
-
   sensoresConDatos.forEach(s => {
     if (s.datos.temperaturaGeneral > 30 &&
         s.datos.humedadTierra < 30 &&
         s.datos.viento > 30) {
-
       hayAlertas = true;
       alertContainer.innerHTML +=
         "<p>" +
@@ -253,29 +242,25 @@ function actualizarAlertas() {
         "</p>";
     }
   });
-
   if (!hayAlertas) {
     alertContainer.innerHTML = "<p>No hay riesgo previsto</p>";
   }
-
   alertContainer.className = "alert-message " + (hayAlertas ? "danger" : "warning");
 }
-
 // ejecutar después de definir sensoresConDatos
 actualizarAlertas();
 </script>
 
 
-</div> <!-- ahora sí cierra right-panels -->
+			</div>
+			<!-- ahora sí cierra right-panels -->
+	</div>
+	</main>
 
 	</div>
-		</main>
-		
-	</div>
 
-	<script src="scripts/data.js"></script>
-	<script src="scripts/map.js"></script>
-	<script src="scripts/main.js"></script>
+	
 	<script src="scripts/mostrarRegistro.js"></script>
 </body>
 </html>
+
